@@ -1,16 +1,6 @@
 <?php
 
-/*
- * This file is part of jwt-auth.
- *
- * (c) Sean Tymon <tymon148@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 return [
-
     /*
     |--------------------------------------------------------------------------
     | JWT Authentication Secret
@@ -18,7 +8,7 @@ return [
     |
     | Don't forget to set this in your .env file, as it will be used to sign
     | your tokens. A helper command is provided for this:
-    | `php artisan jwt:secret`
+    | php artisan jwt:secret
     |
     | Note: This will be used for Symmetric algorithms only (HMAC),
     | since RSA and ECDSA use a private/public key combo (See below).
@@ -33,11 +23,11 @@ return [
     |--------------------------------------------------------------------------
     |
     | The algorithm you are using, will determine whether your tokens are
-    | signed with a random string (defined in `JWT_SECRET`) or using the
+    | signed with a random string (defined in JWT_SECRET) or using the
     | following public & private keys.
     |
     | Symmetric Algorithms:
-    | HS256, HS384 & HS512 will use `JWT_SECRET`.
+    | HS256, HS384 & HS512 will use JWT_SECRET.
     |
     | Asymmetric Algorithms:
     | RS256, RS384 & RS512 / ES256, ES384 & ES512 will use the keys below.
@@ -45,7 +35,6 @@ return [
     */
 
     'keys' => [
-
         /*
         |--------------------------------------------------------------------------
         | Public Key
@@ -82,7 +71,6 @@ return [
         */
 
         'passphrase' => env('JWT_PASSPHRASE'),
-
     ],
 
     /*
@@ -122,16 +110,19 @@ return [
 
     'refresh_ttl' => env('JWT_REFRESH_TTL', 20160),
 
-    /*
+/*
     |--------------------------------------------------------------------------
     | JWT hashing algorithm
     |--------------------------------------------------------------------------
     |
     | Specify the hashing algorithm that will be used to sign the token.
     |
+    | See here: https://github.com/namshi/jose/tree/master/src/Namshi/JOSE/Signer/OpenSSL
+    | for possible values.
+    |
     */
 
-    'algo' => env('JWT_ALGO', Tymon\JWTAuth\Providers\JWT\Provider::ALGO_HS256),
+    'algo' => env('JWT_ALGO', 'HS256'),
 
     /*
     |--------------------------------------------------------------------------
@@ -159,7 +150,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Specify the claim keys to be persisted when refreshing a token.
-    | `sub` and `iat` will automatically be persisted, in
+    | sub and iat will automatically be persisted, in
     | addition to the these claims.
     |
     | Note: If a claim does not exist then it will be ignored.
@@ -176,9 +167,9 @@ return [
     | Lock Subject
     |--------------------------------------------------------------------------
     |
-    | This will determine whether a `prv` claim is automatically added to
+    | This will determine whether a prv claim is automatically added to
     | the token. The purpose of this is to ensure that if you have multiple
-    | authentication models e.g. `App\User` & `App\OtherPerson`, then we
+    | authentication models e.g. App\User & App\OtherPerson, then we
     | should prevent one authentication request from impersonating another,
     | if 2 tokens happen to have the same id across the 2 different models.
     |
@@ -199,7 +190,7 @@ return [
     | Meaning that if you have any unavoidable slight clock skew on
     | any of your servers then this will afford you some level of cushioning.
     |
-    | This applies to the claims `iat`, `nbf` and `exp`.
+    | This applies to the claims iat, nbf and exp.
     |
     | Specify in seconds - only if you know you need it.
     |
@@ -219,7 +210,7 @@ return [
 
     'blacklist_enabled' => env('JWT_BLACKLIST_ENABLED', true),
 
-    /* 
+    /*
     | -------------------------------------------------------------------------
     | Blacklist Grace Period
     | -------------------------------------------------------------------------
@@ -233,6 +224,17 @@ return [
     */
 
     'blacklist_grace_period' => env('JWT_BLACKLIST_GRACE_PERIOD', 0),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Show blacklisted token option
+    |--------------------------------------------------------------------------
+    |
+    | Specify if you want to show black listed token exception on the laravel logs.
+    |
+    */
+
+    'show_black_list_exception' => env('JWT_SHOW_BLACKLIST_EXCEPTION', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -262,7 +264,6 @@ return [
     */
 
     'providers' => [
-
         /*
         |--------------------------------------------------------------------------
         | JWT Provider
@@ -272,7 +273,7 @@ return [
         |
         */
 
-        'jwt' => Tymon\JWTAuth\Providers\JWT\Lcobucci::class,
+        'jwt' => PHPOpenSourceSaver\JWTAuth\Providers\JWT\Lcobucci::class,
 
         /*
         |--------------------------------------------------------------------------
@@ -283,7 +284,7 @@ return [
         |
         */
 
-        'auth' => Tymon\JWTAuth\Providers\Auth\Illuminate::class,
+        'auth' => PHPOpenSourceSaver\JWTAuth\Providers\Auth\Illuminate::class,
 
         /*
         |--------------------------------------------------------------------------
@@ -293,9 +294,6 @@ return [
         | Specify the provider that is used to store tokens in the blacklist.
         |
         */
-
-        'storage' => Tymon\JWTAuth\Providers\Storage\Illuminate::class,
-
+        'storage' => PHPOpenSourceSaver\JWTAuth\Providers\Storage\Illuminate::class,
     ],
-
 ];

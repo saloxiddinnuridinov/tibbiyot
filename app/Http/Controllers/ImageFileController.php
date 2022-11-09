@@ -13,7 +13,33 @@ class ImageFileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
+    /**
+     * @OA\Get(
+     *      path="/auth/image/file",
+     *      operationId="image_file_index",
+     *      tags={"Image_File"},
+     *      summary="All image File",
+     *      description="Hamma image filelarlarni ko'rish",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful",
+     *         @OA\JsonContent(
+     *               @OA\Property(property="id", type="integer", example="1"),
+     *               @OA\Property(property="name_ru", type="string", example="Harley"),
+     *               @OA\Property(property="name_uz", type="string", example="Harley"),
+     *               @OA\Property(property="url", type="string", example="https://www.quigley.info/magnam-accusantium-non-aliquid-ad"),
+     *        )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     *     )
+     */
     public function index()
     {
         $image = ImageFile::get();
@@ -35,6 +61,46 @@ class ImageFileController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * @OA\Post(
+     *      path="/auth/image/file",
+     *      operationId="image_file_store",
+     *      tags={"Image_File"},
+     *      summary="image File add",
+     *      description="image filelarlar qo'shish",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          description="image file save",
+     *          @OA\JsonContent(required={"name_ru", "name_uz", "url", "image"},
+     *               @OA\Property(property="name_ru", type="string", format="text", example="Harley"),
+     *               @OA\Property(property="name_uz", type="string", format="text", example="Harley"),
+     *               @OA\Property(property="url", type="string", format="text", example="https://www.quigley.info/magnam-accusantium-non-aliquid-ad"),
+    *      )
+     * ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *               @OA\Property(property="id", type="integer", example="1"),
+     *               @OA\Property(property="name_ru", type="string", example="Harley"),
+     *               @OA\Property(property="name_uz", type="string", example="Harley"),
+     *               @OA\Property(property="url", type="string", example="https://www.quigley.info/magnam-accusantium-non-aliquid-ad"),
+     *        )
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ), 
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
      */
     public function store(Request $request)
     {
@@ -64,6 +130,46 @@ class ImageFileController extends Controller
      * @param  \App\Models\ImageFile  $imageFile
      * @return \Illuminate\Http\Response
      */
+ /**
+ * @OA\Get(
+ * path="/api/auth/image/file/{id}",
+ * summary="Show image file",
+ * description="bitta image fileda hamma malumotlarini ko'rsatadi",
+ * operationId="image_file_show",
+ * tags={"Image_File"},
+ * @OA\Parameter(
+ *    name="id",
+ *    description="image file id",
+ *    required=true,
+ *    in="path",
+ *    @OA\Schema(
+ *    type="integer"
+ *    )
+ * ),
+ *      @OA\Response(
+ *          response=200,
+ *          description="Successful operation",
+ *          @OA\JsonContent(
+ *                   @OA\Property(property="id", type="integer", example="1"),
+     *               @OA\Property(property="name_ru", type="string", example="Harley"),
+     *               @OA\Property(property="name_uz", type="string", example="Harley"),
+     *               @OA\Property(property="url", type="string", example="https://www.quigley.info/magnam-accusantium-non-aliquid-ad"),
+     * )
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     */
     public function show(ImageFile $imageFile)
     {
         return $imageFile;
@@ -86,6 +192,61 @@ class ImageFileController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\ImageFile  $imageFile
      * @return \Illuminate\Http\Response
+     */
+     /**
+     * @OA\Put(
+     *      path="/api/auth/image/file/{id}",
+     *      operationId="image_file_update",
+     *      tags={"Image_File"},
+     *      summary="Update existing project",
+     *      description="Returns updated project data",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="image file id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          description="term update",
+     *          @OA\JsonContent(required={"name_ru", "name_uz", "url", "image"},
+     *               @OA\Property(property="name_ru", type="string", example="Harley"),
+     *               @OA\Property(property="name_uz", type="string", example="Harley"),
+     *               @OA\Property(property="url", type="string", example="https://www.quigley.info/magnam-accusantium-non-aliquid-ad"),
+     *      )
+     * ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *               @OA\JsonContent(
+     *               @OA\Property(property="id", type="integer", example="1"),
+     *               @OA\Property(property="name_ru", type="string", example="Harley"),
+     *               @OA\Property(property="name_uz", type="string", example="Harley"),
+     *               @OA\Property(property="url", type="string", example="https://www.quigley.info/magnam-accusantium-non-aliquid-ad"),
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      ),
+     * ),
+     * ),
+     * )
      */
     public function update(Request $request, ImageFile $imageFile)
     {
@@ -112,6 +273,41 @@ class ImageFileController extends Controller
      *
      * @param  \App\Models\ImageFile  $imageFile
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * @OA\Delete(
+     *      path="/api/auth/image/file/{id}",
+     *      operationId="image_file_delete",
+     *      tags={"Image_File"},
+     *      summary="Delete existing project",
+     *      description="Deletes a record and returns no content",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Project id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     * )
      */
     public function destroy(ImageFile $imageFile)
     {

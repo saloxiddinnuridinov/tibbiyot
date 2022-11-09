@@ -8,18 +8,46 @@ use Illuminate\Support\Facades\Validator;
 
 class LessonController extends Controller
 {
-    /**
+    /*
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+    /**
+     * @OA\Get(
+     *      path="/api/auth/lesson",
+     *      operationId="lesson_index",
+     *      tags={"Lessons"},
+     *      summary="All Lessons",
+     *      description="Hamma Dars(Lesson)larrni ko'rish",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful",
+     *         @OA\JsonContent(
+     *               @OA\Property(property="id", type="integer", example="1"),
+     *               @OA\Property(property="title_uz", type="string", example="Harley"),
+     *                @OA\Property(property="title_ru", type="string", example="Augustus"),
+     *               @OA\Property(property="category_id", type="number", example="3"),
+     *        )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     *     )
+     */
+
     public function index()
     {
         $lesson = Lesson::get();
         return $lesson;
     }
 
-    /**
+    /*
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -29,12 +57,59 @@ class LessonController extends Controller
         //
     }
 
-    /**
+    /*
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    /*
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    /**
+     * @OA\Post(
+     *      path="/api/auth/lesson",
+     *      operationId="lesson_store",
+     *      tags={"Lessons"},
+     *      summary="new Lesson add",
+     *      description="Yangi Lesson qoshish",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          description="lesson save",
+     *          @OA\JsonContent(required={"title_uz", "title_ru", "category_id"},
+     *               @OA\Property(property="title_uz", type="string", format="text", example="Harley"),
+     *               @OA\Property(property="title_ru", type="string", format="text", example="Augustus"),
+     *               @OA\Property(property="category_id", type="number", format="number", example="2"),
+    *      ),
+     * ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *               @OA\Property(property="id", type="integer", example="1"),
+     *               @OA\Property(property="title_uz", type="string", example="Harley"),
+     *               @OA\Property(property="title_ru", type="string", example="Augustus"),
+     *               @OA\Property(property="catoegory_id", type="number", example="3"),
+     *        )
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ), 
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     */
+
     public function store(Request $request)
     {
         $rules = [
@@ -56,18 +131,58 @@ class LessonController extends Controller
         }
     }
 
-    /**
+    /*
      * Display the specified resource.
      *
      * @param  \App\Models\Lesson  $lesson
      * @return \Illuminate\Http\Response
+     */
+/**
+ * @OA\Get(
+ * path="/api/auth/lesson/{id}",
+ * summary="Show Lesson",
+ * description="bitta Lessonni hamma malumotlarini ko'rsatadi",
+ * operationId="lesson_show",
+ * tags={"Lessons"},
+ * @OA\Parameter(
+ *    name="id",
+ *    description="Lesson id",
+ *    required=true,
+ *    in="path",
+ *    @OA\Schema(
+ *    type="integer"
+ *    )
+ * ),
+ *      @OA\Response(
+ *          response=200,
+ *          description="Successful operation",
+ *          @OA\JsonContent(
+ *                   @OA\Property(property="id", type="integer", example="1"),
+     *               @OA\Property(property="title_uz", type="string", example="Harley"),
+     *               @OA\Property(property="title_ru", type="string", example="Augustus"),
+     *               @OA\Property(property="catoegory_id", type="number", example="3"),
+     * )
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
      */
     public function show(Lesson $lesson)
     {
         return $lesson;
     }
 
-    /**
+    /*
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Lesson  $lesson
@@ -78,12 +193,67 @@ class LessonController extends Controller
         return $lesson;
     }
 
-    /**
+    /*
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Lesson  $lesson
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * @OA\Put(
+     *      path="/api/auth/lesson/{id}",
+     *      operationId="lesson_update",
+     *      tags={"Lessons"},
+     *      summary="Update existing project",
+     *      description="Returns updated project data",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="lesson id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          description="lesson update",
+     *          @OA\JsonContent(required={"title_uz", "title_ru", "category_id"},
+     *               @OA\Property(property="title_uz", type="string", format="text", example="Harley"),
+     *               @OA\Property(property="title_ru", type="string", format="text", example="Augustus"),
+     *               @OA\Property(property="category_id", type="number", format="number", example="2")
+     *      )
+     * ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *               @OA\JsonContent(
+     *               @OA\Property(property="id", type="integer", example="1"),
+     *               @OA\Property(property="title_uz", type="string", example="Harley"),
+     *               @OA\Property(property="title_ru", type="string", example="Augustus"),
+     *               @OA\Property(property="catoegory_id", type="number", example="3"),
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      ),
+     * ),
+     * ),
+     * )
      */
     public function update(Request $request, Lesson $lesson)
     {
@@ -105,11 +275,46 @@ class LessonController extends Controller
     }
     }
 
-    /**
+    /*
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Lesson  $lesson
      * @return \Illuminate\Http\Response
+     */
+/**
+     * @OA\Delete(
+     *      path="/api/auth/lesson/{id}",
+     *      operationId="lesson_delete",
+     *      tags={"Lessons"},
+     *      summary="Delete existing project",
+     *      description="Deletes a record and returns no content",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Project id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     * )
      */
     public function destroy(Lesson $lesson)
     {

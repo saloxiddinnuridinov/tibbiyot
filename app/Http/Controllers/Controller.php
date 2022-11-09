@@ -12,6 +12,11 @@ use Illuminate\Routing\Controller as BaseController;
  *    title="Anatomiya",
  *    version="1.0.0",
  * )
+ * @OA\SecurityScheme(
+ *     securityScheme="bearerAuth",
+ *     type="http",
+ *     scheme="bearer"
+ * )
  * @OA\Tag(
  * name = "Auth",
  * description = "Authdan o'tish",
@@ -44,10 +49,58 @@ use Illuminate\Routing\Controller as BaseController;
  * 
  * @OA\Tag(
  * name = "Terms",
- * description = "Student CRUD",
+ * description = "Term CRUD",
  * ),
  * 
+ * @OA\Tag(
+ * name = "Object_File",
+ * description = "Object File CRUD",
+ * ),
  * 
+ * @OA\Tag(
+ * name = "Video_File",
+ * description = "Video File CRUD",
+ * ),
+ * 
+ * @OA\Tag(
+ * name = "Image_File",
+ * description = "Image File CRUD",
+ * ),
+ * 
+ * @OA\Tag(
+ * name = "Lesson_Join_Object_File",
+ * description = "Lesson Join Object File CRUD",
+ * ),
+ * 
+ * @OA\Tag(
+ * name = "Lesson_Join_Video_File",
+ * description = "Lesson Join Video File CRUD",
+ * ),
+ * 
+ * @OA\Tag(
+ * name = "Lesson_Join_Image_File",
+ * description = "Lesson Join Image File CRUD",
+ * ),
+ * 
+ * @OA\Tag(
+ * name = "Lesson_Join_Term",
+ * description = "Lesson Join Terms CRUD",
+ * ),
+ * 
+ * @OA\Tag(
+ * name = "Terms_Join_Object_File",
+ * description = "Terms Join Object File CRUD",
+ * ),
+ * 
+ * @OA\Tag(
+ * name = "Terms_Join_Video_File",
+ * description = "Terms Join Video File CRUD",
+ * ),
+ * 
+ * @OA\Tag(
+ * name = "Terms_Join_Image_File",
+ * description = "Terms Join Image File CRUD",
+ * ),
  */
 
 class Controller extends BaseController

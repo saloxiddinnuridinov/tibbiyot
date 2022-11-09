@@ -22,7 +22,8 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('phone')->unique();
             $table->enum('status',  ['active', 'inactive'])->default('inactive');
-            $table->boolean('is_bloced')->default(false);
+            $table->integer('verify_code')->nullable();
+            $table->boolean('is_blocked')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

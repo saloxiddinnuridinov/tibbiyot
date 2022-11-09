@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('login',function (){
+    return response()->json(['message'=>'Authdan o`tish kerak web.php']);
+})->name('login');
 Route::get('/', function () {
     return view('welcome');
 });

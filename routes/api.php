@@ -19,18 +19,23 @@ use Illuminate\Support\Facades\Route;
 
 // });
 
-Route::resource('/category', \App\Http\Controllers\CategoryController::class);
+Route::post('login', '\App\Http\Controllers\AuthController@login');
+Route::post('register', '\App\Http\Controllers\AuthController@register');
+Route::post('verify', '\App\Http\Controllers\AuthController@activateUser');
+Route::post('reset-password', '\App\Http\Controllers\AuthController@resetPassword');
+
+
 
 Route::group([
-    'middleware' => 'api',
-    'prefix' => 'auth'
+    'middleware' => 'auth:api',
 ], function ($router) {
 
-    Route::post('login', '\App\Http\Controllers\AuthController@login');
     Route::post('logout', '\App\Http\Controllers\AuthController@logout');
     Route::post('refresh', '\App\Http\Controllers\AuthController@refresh');
     Route::post('me', '\App\Http\Controllers\AuthController@me');
     Route::resource('student',\App\Http\Controllers\StudentController::class);
+Route::resource('/category', \App\Http\Controllers\CategoryController::class);
+
                 //user
                 Route::resource('users', \App\Http\Controllers\UserController::class);
                 

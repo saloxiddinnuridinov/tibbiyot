@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -9,10 +10,42 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    /**
+    /*
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     */
+     /**
+     * @OA\Get(
+     *      path="/api/auth/users",
+     *      operationId="user_index",
+     *      tags={"User"},
+     *      summary="All User",
+     *      description="Hamma Userlarni korish",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful",
+     *         @OA\JsonContent(
+ *               @OA\Property(property="id", type="integer", example="1"),
+ *               @OA\Property(property="name", type="string", example="Harley"),
+ *               @OA\Property(property="surname", type="string", example="Augustus"),
+ *               @OA\Property(property="email", type="string", example="gibson.luz/@example.com"),
+ *               @OA\Property(property="password", type="string", example="user"),
+ *               @OA\Property(property="phone", type="string", example="+998911234567"),
+ *               @OA\Property(property="status", type="enum", example="active"),
+ *               @OA\Property(property="is_bloced", type="number", example="1"),
+ *               @OA\Property(property="rememberToken", type="string", example="xtc8RIDeG9"),
+ *        )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     *     )
      */
     public function index()
     {
@@ -20,7 +53,7 @@ class UserController extends Controller
         return $model;
     }
 
-    /**
+    /*
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -30,25 +63,75 @@ class UserController extends Controller
         //
     }
 
-    /**
+    /*
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    /**
+     * @OA\Post(
+     *      path="/api/auth/users",
+     *      operationId="user_store",
+     *      tags={"User"},
+     *      summary="new User add",
+     *      description="Yangi student qoshish",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          description="user save",
+     *          @OA\JsonContent(required={"name", "surname", "email", "password", "phone", "status", "is_bloced"},
+     *          @OA\Property(property="name", type="string", format="text", example="salohiddin"),
+     *          @OA\Property(property="surname", type="string", format="text", example="Nuriddinov"),
+     *          @OA\Property(property="email", type="string", format="text", example="lorenzo.emmerich@example.com"),
+     *          @OA\Property(property="password", type="string", format="text", example="user"),
+     *          @OA\Property(property="phone", type="string", format="text", example="+998911234567"),
+     *          @OA\Property(property="status", type="string", format="text", example="active"),
+     *          @OA\Property(property="is_bloced", type="number", format="number", example="1"),
+     *      )
+     * ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *               @OA\Property(property="id", type="integer", example="1"),
+     *               @OA\Property(property="name", type="string", example="Harley"),
+     *               @OA\Property(property="surname", type="string", example="Augustus"),
+     *               @OA\Property(property="email", type="string", example="gibson.luz@/example.com"),
+     *               @OA\Property(property="password", type="string", example="user"),
+     *               @OA\Property(property="phone", type="string", example="+998911234567"),
+     *               @OA\Property(property="status", type="enum", example="active"),
+     *               @OA\Property(property="is_bloced", type="number", example="1"),
+     *               @OA\Property(property="rememberToken", type="string", example="xtc8RIDeG9"),
+     *        )
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+
+     * )
+     */
     public function store(Request $request)
     {
-        $rules = [
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' =>'required',
-            'phone' =>'required',
-        ];
-        $validator = Validator::make($request->all(), $rules);
+        // $rules = [
+        //     'name' => 'required',
+        //     'email' => 'required|email',
+        //     'password' =>'required',
+        //     'phone' =>'required',
+        // ];
+        // $validator = Validator::make($request->all(), $rules);
        
-        if ($validator->fails()) {
-            return response()->json($validator);
-        }else{
+        // if ($validator->fails()) {
+        //     return response()->json($validator);
+        // }else{
             $user = new User;
             $user->name = $request->name;
             $user->surname = $request->surname;
@@ -60,21 +143,61 @@ class UserController extends Controller
             $user->is_bloced = $request->is_bloced;
             $user->save();
             return $user;
-        }
+
     }
 
-    /**
+    /*
      * Display the specified resource.
      *
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
+     */
+   /**
+ * @OA\Get(
+ * path="/api/auth/users/{id}",
+ * summary="Show user",
+ * description="bitta studentni hamma malumotlarini ko'rsatadi",
+ * operationId="user_show",
+ * tags={"User"},
+ * @OA\Parameter(
+ *    name="id",
+ *    description="Project id",
+ *    required=true,
+ *    in="path",
+ *    @OA\Schema(
+ *    type="integer"
+ *    )
+ * ),
+ *      @OA\Response(
+ *          response=200,
+ *          description="Successful operation",
+ *          @OA\JsonContent(
+ *                  @OA\Property(property="id", type="integer", example="1"),
+ *                      @OA\Property(property="name_uz", type="string", example="masalan"),
+ *                      @OA\Property(property="name_ru", type="string", example="например"),
+ *                      @OA\Property(property="image", type="string", example="image/image.jpg"),
+ *                      @OA\Property(property="parrent_id", type="integer", example="12"),)
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
      */
     public function show(User $user)
     {
         return $user;
     }
 
-    /**
+    /*
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\User  $user
@@ -85,18 +208,83 @@ class UserController extends Controller
         return $user;
     }
 
-    /**
+    /*
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
+    /**
+     * @OA\Put(
+     *      path="/api/auth/user/{id}",
+     *      operationId="user_update",
+     *      tags={"User"},
+     *      summary="Update existing project",
+     *      description="Returns updated project data",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Project id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          description="user update",
+     *          @OA\JsonContent(required={"name", "surname", "email", "password", "phone", "status", "is_bloced"},
+     *          @OA\Property(property="name", type="string", format="text", example="salohiddin"),
+     *          @OA\Property(property="surname", type="string", format="text", example="Nuriddinov"),
+     *          @OA\Property(property="email", type="string", format="text", example="lorenzo.emmerich@example.com"),
+     *          @OA\Property(property="password", type="string", format="text", example="user"),
+     *          @OA\Property(property="phone", type="string", format="text", example="+998911234567"),
+     *          @OA\Property(property="status", type="string", format="text", example="active"),
+     *          @OA\Property(property="is_bloced", type="number", format="number", example="1")
+     *      )
+     * ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *               @OA\JsonContent(
+     *               @OA\Property(property="id", type="integer", example="1"),
+     *               @OA\Property(property="name", type="string", example="Harley"),
+     *               @OA\Property(property="surname", type="string", example="Augustus"),
+     *               @OA\Property(property="email", type="string", example="gibson.luz@example.com"),
+     *               @OA\Property(property="password", type="string", example="user"),
+     *               @OA\Property(property="phone", type="string", example="+998911234567"),
+     *               @OA\Property(property="status", type="enum", example="active"),
+     *               @OA\Property(property="is_bloced", type="number", example="1"),
+     *               @OA\Property(property="rememberToken", type="string", example="xtc8RIDeG9")
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      ),
+     * ),
+     * ),
+     * )
+     */
+
     public function update(Request $request, User $user)
     {
         $rules = [
             'name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|exists:users,email',
             'password' =>'required',
             'phone' =>'required',
         ];
@@ -119,11 +307,46 @@ class UserController extends Controller
         }
     }
 
-    /**
+    /*
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * @OA\Delete(
+     *      path="/api/auth/user/{id}",
+     *      operationId="user_delete",
+     *      tags={"User"},
+     *      summary="Delete existing project",
+     *      description="Deletes a record and returns no content",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Project id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     * )
      */
     public function destroy(User $user)
     {

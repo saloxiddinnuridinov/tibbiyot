@@ -11,12 +11,7 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    /*
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    /**
+ /**
  * @OA\Get(
  * path="/api/category",
  * summary="all categorys",
@@ -26,16 +21,8 @@ class CategoryController extends Controller
  * @OA\Response(
  *    response=200,
  *    description="Success",
- *    @OA\JsonContent(
- *       @OA\Property(property="id", type="integer", example="1"),
- *       @OA\Property(property="name_uz", type="string", example="Harley Tromp"),
- *       @OA\Property(property="name_ru", type="string", example="Augustus  Kassulke"),
- *       @OA\Property(property="image", type="string", example="Dickinson"),
- *       @OA\Property(property="parent_id", type="integer", example="7"),
- *       @OA\Property(property="created_at", type="string", example="2022-10-19T12:46:55.000000Z"),
- *       @OA\Property(property="updated_at", type="string", example="2022-10-19T12:46:55.000000Z"),
- *        )
- *     )
+ *    @OA\JsonContent(ref="#/components/schemas/Category"),
+ * )
  * )
  */
     public function index()
@@ -44,59 +31,62 @@ class CategoryController extends Controller
         return $model;
     }
 
-    /*
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
-
-    /*
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
 /**
  * @OA\Post(
- * path="/api/category",
- * summary="add categorys",
- * description="Category add",
- * operationId="category_store",
- * tags={"Category"},
- * @OA\RequestBody(
- *    required= true ,
- *    description="category save",
- *    @OA\JsonContent(
- *       required={"name_uz","name_ru", "image", "parent_id",},
- *       @OA\Property(property="name_uz", type="string", format="text", example="salohiddin"),
- *       @OA\Property(property="name_ru", type="string", format="text", example="салохиддин"),
- *       @OA\Property(property="image", type="string", format="text", example="image/image.jpg"),
- *       @OA\Property(property="perrent_id", type="number", format="number", example="1"),
- *    ),
- * ),
- * @OA\Response(
+ *  path="/api/category",
+ *  summary="add categorys",
+ *  description="Category add",
+ *  operationId="category_store",
+ *  tags={"Category"},
+ *  @OA\RequestBody(
+     *          required=true,
+     *          description="Register page",
+     *          @OA\MediaType(
+     *              mediaType="multipart/form-data",
+     *              @OA\Schema(
+     *                  type="object",
+     *                  required={"name_uz","name_ru","image","parent_id"},
+    *          @OA\Property(property="name_uz",type="string",@OA\Schema(example="Tana")),
+    *          @OA\Property(property="name_ru",type="string",@OA\Schema(example="body")),
+    *          @OA\Property(property="parent_id",type="integer",@OA\Schema(example="1")),
+    *          @OA\Property(property="image", type="string", format="binary")
+     *              )
+     *          )
+     *      ),
+ * 
+ *  @OA\Response(
  *    response=200,
- *    description="cucsses",
- *    @OA\JsonContent(
- *       @OA\Property(property="message", type="string", example="Success, Catrgoryiya qo'shildi")
- *        )
- *     )
+ *    description="success",
+ *    @OA\JsonContent(ref="#/components/schemas/Category"),
+ *  )
  * )
+ * 
  */
     public function store(CategoryRequest $request)
     {
-        
-            $category = new Category();
-            $category->name_uz = $request->name_uz;
-            $category->name_ru = $request->name_ru;
-            $category->image = $request->image;
-            $category->parent_id=$request->parent_id;
-            $category->save();
-            return $category;//response()->json(new CategoryResource($category), 200);
+        $rules = [
+            'name_uz' => 'required',
+            'name_ru' => 'required',
+            'parent_id' => 'required',
+            'image' => 'required',
+        ];
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()){
+            return response()->json($validator-> messages(), 400);
+        }else{
+        $image = $request->file('image');
+        return $image;
+        $category = new Category();
+        $category->name_uz = $request->name_uz;
+        $category->name_ru = $request->name_ru;
+        $category->parent_id=$request->parent_id;
+        $category->save();
+        return response()->json(new CategoryResource($category), 200);
+        }
     }
 
     /*
@@ -115,13 +105,7 @@ class CategoryController extends Controller
  * @OA\Response(
  *    response=200,
  *    description="cuccess",
- *    @OA\JsonContent(
- *       @OA\Property(property="id", type="integer", example="1"),
- *       @OA\Property(property="name_uz", type="string", example="masalan"),
- *       @OA\Property(property="name_ru", type="string", example="например"),
- *       @OA\Property(property="image", type="string", example="image/image.jpg"),
- *       @OA\Property(property="parrent_id", type="integer", example="12"),
- *        )
+ *    @OA\JsonContent(ref="#/components/schemas/Category"),
  *     )
  * )
  */
@@ -142,7 +126,33 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return $category;
+        $rules = [
+            'name_uz' => 'required',
+            'name_ru' => 'required',
+            'parent_id' => 'required',
+            'image' => 'required',
+        ];
+        $validator = Validator::make($request->all(), $rules);
+
+        // ensure the request has a file before we attempt anything else.
+        if ($request->hasFile('file')) {
+
+            $request->validate([
+                'image' => 'mimes:jpeg,bmp,png' // Only allow .jpg, .bmp and .png file types.
+            ]);
+
+            // Save the file locally in the storage/public/ folder under a new folder named /product
+            $request->file->store('product', 'public');
+
+            // Store the record, using the new file hashname which will be it's new filename identity.
+            $product = new Product([
+                "name" => $request->get('name'),
+                "file_path" => $request->file->hashName()
+            ]);
+            $product->save(); // Finally, save the record.
+        }
+
+        return view('products.create');
     }
 
     /*
@@ -185,13 +195,31 @@ class CategoryController extends Controller
 
     public function update(Request $request, Category $category)
     {
-        $category_update = Category::find($category->id);
-        $category_update->name_uz = $request->name_uz ?? $category_update->name_uz;
-        $category_update->name_ru = $request->name_ru ?? $category_update->name_ru;
-        $category_update->image = $request->image ?? $category_update->image;
-        $category_update->parent_id=$request->parent_id ?? $category_update->parent_id;
-        $category_update->save();
-        return $category_update;
+        $rules = [
+            'name' => 'required',
+            'surname' => 'required',
+            'email' => ['required','unique:users,email'],
+            'phone' => ['required','unique:users,phone'],
+            'password' => 'required|confirmed',
+        ];
+        $validator = Validator::make($request->all(),$rules);
+        if($validator->fails()){
+            return response()->json($validator->messages(),400);
+        }else{
+            $image = $request->file('image');
+            $category = new Category();
+            $category->name_uz = $request->name_uz;
+            $category->name_ru = $request->name_ru;
+            $category->parent_id=$request->parent_id;
+            $category->save();
+        }
+        
+        $verify =  $this->sendVerify($user);
+        return response()->json(['data' => $user, 'success' => 'Successfully registrated', 'verify' => $verify], 200);
+        
+
+        
+
     }
 
     /*
