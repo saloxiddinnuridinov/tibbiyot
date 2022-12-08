@@ -11,9 +11,14 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+    }
  /**
  * @OA\Get(
  * path="/api/category",
+ * security={{"bearerAuth":{}}},
  * summary="all categorys",
  * description="Categorys",
  * operationId="category_index",
@@ -38,6 +43,7 @@ class CategoryController extends Controller
 /**
  * @OA\Post(
  *  path="/api/category",
+ *  security={{"bearerAuth":{}}},
  *  summary="add categorys",
  *  description="Category add",
  *  operationId="category_store",
@@ -98,6 +104,7 @@ class CategoryController extends Controller
 /**
  * @OA\Get(
  * path="/api/category/{category}",
+ * security={{"bearerAuth":{}}},
  * summary="Show categorys",
  * description="Bitta idga tegishli categoriyalar ko'rinadi",
  * operationId="category_show",
@@ -124,7 +131,7 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit(Category $category, Request $request)
     {
         $rules = [
             'name_uz' => 'required',
@@ -145,7 +152,7 @@ class CategoryController extends Controller
             $request->file->store('product', 'public');
 
             // Store the record, using the new file hashname which will be it's new filename identity.
-            $product = new Product([
+            $product = new Category([
                 "name" => $request->get('name'),
                 "file_path" => $request->file->hashName()
             ]);
@@ -165,6 +172,7 @@ class CategoryController extends Controller
 /**
      *  @OA\Put (
      *      path="/api/category/{id}",
+     *      security={{"bearerAuth":{}}},
      *      tags={"Category"},
      *      operationId="category_update",
      *      summary="Update branch",
@@ -213,9 +221,7 @@ class CategoryController extends Controller
             $category->parent_id=$request->parent_id;
             $category->save();
         }
-        
-        $verify =  $this->sendVerify($user);
-        return response()->json(['data' => $user, 'success' => 'Successfully registrated', 'verify' => $verify], 200);
+        return response()->json(['data' => $category, 'success' => 'Successfully registrated',], 200);
         
 
         
@@ -232,6 +238,7 @@ class CategoryController extends Controller
      * @OA\Delete(
      *      path="/api/category/{id}",
      *      operationId="deleteProject",
+     *      security={{"bearerAuth":{}}},
      *      tags={"Category"},
      *      summary="Delete existing project",
      *      description="Deletes a record and returns no content",

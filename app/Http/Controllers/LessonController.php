@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Validator;
 
 class LessonController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+    }
     /*
      * Display a listing of the resource.
      *
@@ -43,7 +47,7 @@ class LessonController extends Controller
 
     public function index()
     {
-        $lesson = Lesson::get();
+        $lesson = Lesson::all();
         return $lesson;
     }
 
@@ -72,6 +76,7 @@ class LessonController extends Controller
     /**
      * @OA\Post(
      *      path="/api/auth/lesson",
+     *      security={{"bearerAuth":{}}},
      *      operationId="lesson_store",
      *      tags={"Lessons"},
      *      summary="new Lesson add",
@@ -140,6 +145,7 @@ class LessonController extends Controller
 /**
  * @OA\Get(
  * path="/api/auth/lesson/{id}",
+ * security={{"bearerAuth":{}}},
  * summary="Show Lesson",
  * description="bitta Lessonni hamma malumotlarini ko'rsatadi",
  * operationId="lesson_show",
@@ -203,6 +209,7 @@ class LessonController extends Controller
     /**
      * @OA\Put(
      *      path="/api/auth/lesson/{id}",
+     *      security={{"bearerAuth":{}}},
      *      operationId="lesson_update",
      *      tags={"Lessons"},
      *      summary="Update existing project",
@@ -284,6 +291,7 @@ class LessonController extends Controller
 /**
      * @OA\Delete(
      *      path="/api/auth/lesson/{id}",
+     *      security={{"bearerAuth":{}}},
      *      operationId="lesson_delete",
      *      tags={"Lessons"},
      *      summary="Delete existing project",

@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Validator;
 
 class LessonJoinVideoFileController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+    }
     /*
      * Display a listing of the resource.
      *
@@ -16,7 +20,8 @@ class LessonJoinVideoFileController extends Controller
      */
         /**
      * @OA\Get(
-     *      path="/api/auth/lesson/join/video/file",
+     *      path="/api/lesson-join-video/file",
+     * security={{"bearerAuth":{}}},
      *      operationId="lesson_join_video_file_index",
      *      tags={"Lesson_Join_Video_File"},
      *      summary="All lesson join video File",
@@ -64,7 +69,8 @@ class LessonJoinVideoFileController extends Controller
      */
      /**
      * @OA\Post(
-     *      path="/api/auth/lesson/join/video/file",
+     *      path="/api/lesson-join-video/file",
+     *      security={{"bearerAuth":{}}},
      *      operationId="lesson_join_video_file_store",
      *      tags={"Lesson_Join_Video_File"},
      *      summary="lesson_join_video File add",
@@ -128,7 +134,8 @@ class LessonJoinVideoFileController extends Controller
      */
  /**
  * @OA\Get(
- * path="/api/auth/lesson/join/video/file/{id}",
+ * path="/api/lesson-join-video/file/{id}",
+ * security={{"bearerAuth":{}}},
  * summary="Show lesson join video file",
  * description="bitta lesson join video fileda hamma malumotlarini ko'rsatadi",
  * operationId="lesson_Join_video_File_show",
@@ -190,7 +197,8 @@ class LessonJoinVideoFileController extends Controller
      */
      /**
      * @OA\Put(
-     *      path="/api/auth/lesson/join/video/file/{id}",
+     *      path="/api/lesson-join-video/file/{id}",
+     *      security={{"bearerAuth":{}}},
      *      operationId="lesson_join_video_file_update",
      *      tags={"Lesson_Join_Video_File"},
      *      summary="Update existing project",
@@ -267,7 +275,8 @@ class LessonJoinVideoFileController extends Controller
      */
      /**
      * @OA\Delete(
-     *      path="/api/auth/lesson/join/video/file/{id}",
+     *      path="/api/lesson-join-video/file/{id}",
+     *      security={{"bearerAuth":{}}},
      *      operationId="lesson_join_video_file_delete",
      *      tags={"Lesson_Join_Video_File"},
      *      summary="Delete existing project",

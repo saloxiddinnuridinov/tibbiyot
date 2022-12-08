@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Validator;
 
 class ImageFileController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+    }
     /*
      * Display a listing of the resource.
      *
@@ -15,7 +19,8 @@ class ImageFileController extends Controller
      */
     /**
      * @OA\Get(
-     *      path="/auth/image/file",
+     *      path="/auth/image-file",
+     *      security={{"bearerAuth":{}}},
      *      operationId="image_file_index",
      *      tags={"Image_File"},
      *      summary="All image File",
@@ -64,7 +69,8 @@ class ImageFileController extends Controller
      */
     /**
      * @OA\Post(
-     *      path="/auth/image/file",
+     *      path="/auth/image-file",
+     *      security={{"bearerAuth":{}}},
      *      operationId="image_file_store",
      *      tags={"Image_File"},
      *      summary="image File add",
@@ -132,7 +138,8 @@ class ImageFileController extends Controller
      */
  /**
  * @OA\Get(
- * path="/api/auth/image/file/{id}",
+ * path="/api/auth/image-file/{id}",
+ * security={{"bearerAuth":{}}},
  * summary="Show image file",
  * description="bitta image fileda hamma malumotlarini ko'rsatadi",
  * operationId="image_file_show",
@@ -195,7 +202,8 @@ class ImageFileController extends Controller
      */
      /**
      * @OA\Put(
-     *      path="/api/auth/image/file/{id}",
+     *      path="/api/auth/image-file/{id}",
+     *      security={{"bearerAuth":{}}},
      *      operationId="image_file_update",
      *      tags={"Image_File"},
      *      summary="Update existing project",
@@ -276,7 +284,8 @@ class ImageFileController extends Controller
      */
     /**
      * @OA\Delete(
-     *      path="/api/auth/image/file/{id}",
+     *      path="/api/auth/image-file/{id}",
+     *      security={{"bearerAuth":{}}},
      *      operationId="image_file_delete",
      *      tags={"Image_File"},
      *      summary="Delete existing project",

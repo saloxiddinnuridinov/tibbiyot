@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Validator;
 
 class TermJoinVideoFileController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+    }
     /*
      * Display a listing of the resource.
      *
@@ -16,7 +20,8 @@ class TermJoinVideoFileController extends Controller
      */
     /**
      * @OA\Get(
-     *      path="/api/auth/term/join/video/file",
+     *      path="/api/term-join-video-file",
+     *      security={{"bearerAuth":{}}},
      *      operationId="term_join_video_file_index",
      *      tags={"Terms_Join_Video_File"},
      *      summary="All term join video File",
@@ -65,7 +70,8 @@ class TermJoinVideoFileController extends Controller
      */
     /**
      * @OA\Post(
-     *      path="/api/auth/term/join/video/file",
+     *      path="/api/term-join-video-file",
+     *      security={{"bearerAuth":{}}},
      *      operationId="term_join_video_file_store",
      *      tags={"Terms_Join_Video_File"},
      *      summary="Term_join_video File add",
@@ -129,7 +135,8 @@ class TermJoinVideoFileController extends Controller
      */
     /**
  * @OA\Get(
- * path="/api/auth/term/join/video/file/{id}",
+ * path="/api/term-join-video-file/{id}",
+ * security={{"bearerAuth":{}}},
  * summary="Show term join video file",
  * description="bitta term join video fileda hamma malumotlarini ko'rsatadi",
  * operationId="Terms_Join_video_File_show",
@@ -191,7 +198,8 @@ class TermJoinVideoFileController extends Controller
      */
     /**
      * @OA\Put(
-     *      path="/api/auth/term/join/video/file/{id}",
+     *      path="/api/term-join-video-file/{id}",
+     *      security={{"bearerAuth":{}}},
      *      operationId="term_join_video_file_update",
      *      tags={"Terms_Join_Video_File"},
      *      summary="Update existing project",
@@ -270,7 +278,8 @@ class TermJoinVideoFileController extends Controller
      */
     /**
      * @OA\Delete(
-     *      path="/api/auth/term/join/video/file/{id}",
+     *      path="/api/term-join-video-file/{id}",
+     *      security={{"bearerAuth":{}}},
      *      operationId="term_join_video_file_delete",
      *      tags={"Terms_Join_Video_File"},
      *      summary="Delete existing project",

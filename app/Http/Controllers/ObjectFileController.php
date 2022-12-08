@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Validator;
 
 class ObjectFileController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+    }
     /*
      * Display a listing of the resource.
      *
@@ -17,7 +21,8 @@ class ObjectFileController extends Controller
 
     /**
      * @OA\Get(
-     *      path="/auth/object/file",
+     *      path="/object-file",
+     *      security={{"bearerAuth":{}}},
      *      operationId="object_file_index",
      *      tags={"Object_File"},
      *      summary="All Object File",
@@ -66,7 +71,8 @@ class ObjectFileController extends Controller
      */
     /**
      * @OA\Post(
-     *      path="/auth/object/file",
+     *      path="/object-file",
+     *      security={{"bearerAuth":{}}},
      *      operationId="object_file_store",
      *      tags={"Object_File"},
      *      summary="Object File add",
@@ -137,7 +143,8 @@ class ObjectFileController extends Controller
      */
  /**
  * @OA\Get(
- * path="/api/auth/object/file/{id}",
+ * path="/api/object-file/{id}",
+ * security={{"bearerAuth":{}}},
  * summary="Show object file",
  * description="bitta object fileda hamma malumotlarini ko'rsatadi",
  * operationId="object_file_show",
@@ -201,7 +208,8 @@ class ObjectFileController extends Controller
      */
     /**
      * @OA\Put(
-     *      path="/api/auth/object/file/{id}",
+     *      path="/api/object-file/{id}",
+     *      security={{"bearerAuth":{}}},
      *      operationId="object_file_update",
      *      tags={"Object_File"},
      *      summary="Update existing project",
@@ -287,7 +295,8 @@ class ObjectFileController extends Controller
      */
     /**
      * @OA\Delete(
-     *      path="/api/auth/object/file/{id}",
+     *      path="/api/object-file/{id}",
+     *      security={{"bearerAuth":{}}},
      *      operationId="object_file_delete",
      *      tags={"Object_File"},
      *      summary="Delete existing project",

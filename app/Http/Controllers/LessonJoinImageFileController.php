@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Validator;
 
 class LessonJoinImageFileController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+    }
     /*
      * Display a listing of the resource.
      *
@@ -15,7 +19,8 @@ class LessonJoinImageFileController extends Controller
      */
      /**
      * @OA\Get(
-     *      path="/api/auth/lesson/join/image/file",
+     *      path="/api/lesson-join-image-file",
+     *      security={{"bearerAuth":{}}},
      *      operationId="lesson_join_image_file_index",
      *      tags={"Lesson_Join_Image_File"},
      *      summary="All lesson join image File",
@@ -64,7 +69,8 @@ class LessonJoinImageFileController extends Controller
      */
          /**
      * @OA\Post(
-     *      path="/api/auth/lesson/join/image/file",
+     *      path="/api/lesson-join-image-file",
+     *      security={{"bearerAuth":{}}},
      *      operationId="lesson_join_image_file_store",
      *      tags={"Lesson_Join_Image_File"},
      *      summary="lesson_join_image File add",
@@ -128,7 +134,8 @@ class LessonJoinImageFileController extends Controller
      */
      /**
  * @OA\Get(
- * path="/api/auth/lesson/join/image/file/{id}",
+ * path="/api/lesson-join-image-file/{id}",
+ * security={{"bearerAuth":{}}},
  * summary="Show lesson join image file",
  * description="bitta lesson join image fileda hamma malumotlarini ko'rsatadi",
  * operationId="lesson_Join_Image_File_show",
@@ -191,7 +198,8 @@ class LessonJoinImageFileController extends Controller
      */
          /**
      * @OA\Put(
-     *      path="/api/auth/lesson/join/image/file/{id}",
+     *      path="/api/lesson-join-image-file/{id}",
+     *      security={{"bearerAuth":{}}},
      *      operationId="lesson_join_image_file_update",
      *      tags={"Lesson_Join_Image_File"},
      *      summary="Update existing project",
@@ -268,7 +276,8 @@ class LessonJoinImageFileController extends Controller
      */
      /**
      * @OA\Delete(
-     *      path="/api/auth/lesson/join/image/file/{id}",
+     *      path="/api/lesson-join-image-file/{id}",
+     *      security={{"bearerAuth":{}}},
      *      operationId="lesson_join_image_file_delete",
      *      tags={"Lesson_Join_Image_File"},
      *      summary="Delete existing project",

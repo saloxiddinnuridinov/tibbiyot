@@ -6,10 +6,12 @@ use App\Models\TermJoinObjectFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-
-
 class TermJoinObjectFileController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+    }
     /*
      * Display a listing of the resource.
      *
@@ -17,7 +19,8 @@ class TermJoinObjectFileController extends Controller
      */
     /**
      * @OA\Get(
-     *      path="/api/auth/term/join/object/file",
+     *      path="/api/term-join-object-file",
+     *      security={{"bearerAuth":{}}},
      *      operationId="term_join_object_file_index",
      *      tags={"Terms_Join_Object_File"},
      *      summary="All term join object File",
@@ -65,7 +68,8 @@ class TermJoinObjectFileController extends Controller
      */
     /**
      * @OA\Post(
-     *      path="/api/auth/term/join/object/file",
+     *      path="/api/term-join-object-file",
+     *      security={{"bearerAuth":{}}},
      *      operationId="term_join_object_file_store",
      *      tags={"Terms_Join_Object_File"},
      *      summary="Term_join_object File add",
@@ -129,7 +133,8 @@ class TermJoinObjectFileController extends Controller
      */
     /**
  * @OA\Get(
- * path="/api/auth/term/join/object/file/{id}",
+ * path="/api/term-join-object-file/{id}",
+ * security={{"bearerAuth":{}}},
  * summary="Show term join object file",
  * description="bitta term join object fileda hamma malumotlarini ko'rsatadi",
  * operationId="Terms_Join_Object_File_show",
@@ -191,7 +196,8 @@ class TermJoinObjectFileController extends Controller
      */
     /**
      * @OA\Put(
-     *      path="/api/auth/term/join/object/file/{id}",
+     *      path="/api/term-join-object-file/{id}",
+     *      security={{"bearerAuth":{}}},
      *      operationId="term_join_object_file_update",
      *      tags={"Terms_Join_Object_File"},
      *      summary="Update existing project",
@@ -269,7 +275,8 @@ class TermJoinObjectFileController extends Controller
      */
     /**
      * @OA\Delete(
-     *      path="/api/auth/term/join/object/file/{id}",
+     *      path="/api/term-join-object-file/{id}",
+     *      security={{"bearerAuth":{}}},
      *      operationId="term_join_object_file_delete",
      *      tags={"Terms_Join_Object_File"},
      *      summary="Delete existing project",

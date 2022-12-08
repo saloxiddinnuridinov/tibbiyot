@@ -37,10 +37,6 @@ use Illuminate\Routing\Controller as BaseController;
  * description = "Student CRUD",
  * ),
  * 
- * @OA\Tag(
- * name = "Content",
- * description = "Content CRUD",
- * ),
  * 
  * @OA\Tag(
  * name = "Lessons",

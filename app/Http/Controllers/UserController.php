@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+    }
     /*
      * Display a listing of the resource.
      *
@@ -17,7 +21,8 @@ class UserController extends Controller
      */
      /**
      * @OA\Get(
-     *      path="/api/auth/users",
+     *      path="/api/user",
+     *      security={{"bearerAuth":{}}},
      *      operationId="user_index",
      *      tags={"User"},
      *      summary="All User",
@@ -71,7 +76,8 @@ class UserController extends Controller
      */
     /**
      * @OA\Post(
-     *      path="/api/auth/users",
+     *      path="/api/user",
+     *      security={{"bearerAuth":{}}},
      *      operationId="user_store",
      *      tags={"User"},
      *      summary="new User add",
@@ -121,17 +127,17 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // $rules = [
-        //     'name' => 'required',
-        //     'email' => 'required|email',
-        //     'password' =>'required',
-        //     'phone' =>'required',
-        // ];
-        // $validator = Validator::make($request->all(), $rules);
+        $rules = [
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' =>'required',
+            'phone' =>'required',
+        ];
+        $validator = Validator::make($request->all(), $rules);
        
-        // if ($validator->fails()) {
-        //     return response()->json($validator);
-        // }else{
+        if ($validator->fails()) {
+            return response()->json($validator);
+        }else{
             $user = new User;
             $user->name = $request->name;
             $user->surname = $request->surname;
@@ -143,7 +149,7 @@ class UserController extends Controller
             $user->is_bloced = $request->is_bloced;
             $user->save();
             return $user;
-
+        }
     }
 
     /*
@@ -154,7 +160,8 @@ class UserController extends Controller
      */
    /**
  * @OA\Get(
- * path="/api/auth/users/{id}",
+ * path="/api/user/{id}",
+ * security={{"bearerAuth":{}}},
  * summary="Show user",
  * description="bitta studentni hamma malumotlarini ko'rsatadi",
  * operationId="user_show",
@@ -217,7 +224,8 @@ class UserController extends Controller
      */
     /**
      * @OA\Put(
-     *      path="/api/auth/user/{id}",
+     *      path="/api/user/{id}",
+     *      security={{"bearerAuth":{}}},
      *      operationId="user_update",
      *      tags={"User"},
      *      summary="Update existing project",
@@ -315,7 +323,8 @@ class UserController extends Controller
      */
     /**
      * @OA\Delete(
-     *      path="/api/auth/user/{id}",
+     *      path="/api/user/{id}",
+     *      security={{"bearerAuth":{}}},
      *      operationId="user_delete",
      *      tags={"User"},
      *      summary="Delete existing project",

@@ -10,6 +10,10 @@ use SebastianBergmann\Type\ObjectType;
 
 class LessonJoinObjectFileController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+    }
     /*
      * Display a listing of the resource.
      *
@@ -17,7 +21,8 @@ class LessonJoinObjectFileController extends Controller
      */
     /**
      * @OA\Get(
-     *      path="/api/auth/lesson/join/object/file",
+     *      path="/api/lesson-join-object-file",
+     *      security={{"bearerAuth":{}}},
      *      operationId="lesson_join_object_file_index",
      *      tags={"Lesson_Join_Object_File"},
      *      summary="All lesson join object File",
@@ -65,7 +70,8 @@ class LessonJoinObjectFileController extends Controller
      */
     /**
      * @OA\Post(
-     *      path="/api/auth/lesson/join/object/file",
+     *      path="/api/lesson-join-object-file",
+     *      security={{"bearerAuth":{}}},
      *      operationId="lesson_join_object_file_store",
      *      tags={"Lesson_Join_Object_File"},
      *      summary="lesson_join_object File add",
@@ -129,7 +135,8 @@ class LessonJoinObjectFileController extends Controller
      */
  /**
  * @OA\Get(
- * path="/api/auth/lesson/join/object/file/{id}",
+ * path="/api/lesson-join-object-file/{id}",
+ * security={{"bearerAuth":{}}},
  * summary="Show lesson join object file",
  * description="bitta lesson join object fileda hamma malumotlarini ko'rsatadi",
  * operationId="lesson_Join_Object_File_show",
@@ -191,7 +198,8 @@ class LessonJoinObjectFileController extends Controller
      */
      /**
      * @OA\Put(
-     *      path="/api/auth/lesson/join/object/file/{id}",
+     *      path="/api/lesson-join-object-file/{id}",
+     *      security={{"bearerAuth":{}}},
      *      operationId="lesson_join_object_file_update",
      *      tags={"Lesson_Join_Object_File"},
      *      summary="Update existing project",
@@ -268,7 +276,8 @@ class LessonJoinObjectFileController extends Controller
      */
      /**
      * @OA\Delete(
-     *      path="/api/auth/lesson/join/object/file/{id}",
+     *      path="/api/lesson-join-object-file/{id}",
+     *      security={{"bearerAuth":{}}},
      *      operationId="lesson_join_object_file_delete",
      *      tags={"Lesson_Join_Object_File"},
      *      summary="Delete existing project",

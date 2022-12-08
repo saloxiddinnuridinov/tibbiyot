@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Validator;
 
 class VideoFileController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+    }
     /*
      * Display a listing of the resource.
      *
@@ -16,7 +20,7 @@ class VideoFileController extends Controller
      */
     /**
      * @OA\Get(
-     *      path="/auth/video/file",
+     *      path="/video-file",
      *      operationId="video_file_index",
      *      tags={"Video_File"},
      *      summary="All video File",
@@ -66,7 +70,8 @@ class VideoFileController extends Controller
      */
     /**
      * @OA\Post(
-     *      path="/auth/video/file",
+     *      path="/video-file",
+     *      security={{"bearerAuth":{}}},
      *      operationId="video_file_store",
      *      tags={"Video_File"},
      *      summary="video File add",
@@ -133,7 +138,7 @@ class VideoFileController extends Controller
      */
  /**
  * @OA\Get(
- * path="/api/auth/video/file/{id}",
+ * path="/api/video-file/{id}",
  * summary="Show video file",
  * description="bitta video fileda hamma malumotlarini ko'rsatadi",
  * operationId="video_file_show",
@@ -197,7 +202,8 @@ class VideoFileController extends Controller
      */
     /**
      * @OA\Put(
-     *      path="/api/auth/video/file/{id}",
+     *      path="/api/video-file/{id}",
+     *      security={{"bearerAuth":{}}},
      *      operationId="video_file_update",
      *      tags={"Video_File"},
      *      summary="Update existing project",
@@ -285,7 +291,8 @@ class VideoFileController extends Controller
      */
     /**
      * @OA\Delete(
-     *      path="/api/auth/video/file/{id}",
+     *      path="/api/video-file/{id}",
+     *      security={{"bearerAuth":{}}},
      *      operationId="video_file_delete",
      *      tags={"Video_File"},
      *      summary="Delete existing project",

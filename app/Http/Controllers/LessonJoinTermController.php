@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Validator;
 
 class LessonJoinTermController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+    }
     /*
      * Display a listing of the resource.
      *
@@ -16,7 +20,8 @@ class LessonJoinTermController extends Controller
      */
     /**
      * @OA\Get(
-     *      path="api/auth/lesson/join/term",
+     *      path="api/lesson-join-term",
+     *      security={{"bearerAuth":{}}},
      *      operationId="lesson_join_term_index",
      *      tags={"Lesson_Join_Term"},
      *      summary="All lesson join image File",
@@ -64,7 +69,8 @@ class LessonJoinTermController extends Controller
      */
     /**
      * @OA\Post(
-     *      path="api/auth/lesson/join/term",
+     *      path="api/lesson-join-term",
+     *      security={{"bearerAuth":{}}},
      *      operationId="lesson_join_term_store",
      *      tags={"Lesson_Join_Term"},
      *      summary="lesson_join_image File add",
@@ -128,7 +134,8 @@ class LessonJoinTermController extends Controller
      */
     /**
  * @OA\Get(
- * path="api/auth/lesson/join/term/{id}",
+ * path="api/lesson-join-term{id}",
+ * security={{"bearerAuth":{}}},
  * summary="Show lesson join image file",
  * description="bitta lesson join image fileda hamma malumotlarini ko'rsatadi",
  * operationId="lesson_Join_term_show",
@@ -190,7 +197,8 @@ class LessonJoinTermController extends Controller
      */
     /**
      * @OA\Put(
-     *      path="api/auth/lesson/join/term/{id}",
+     *      path="api/lesson-join-term{id}",
+     *      security={{"bearerAuth":{}}},
      *      operationId="lesson_join_term_update",
      *      tags={"Lesson_Join_Term"},
      *      summary="Update existing project",
@@ -267,7 +275,8 @@ class LessonJoinTermController extends Controller
      */
     /**
      * @OA\Delete(
-     *      path="api/auth/lesson/join/term/{id}",
+     *      path="api/lesson-join-term{id}",
+     *      security={{"bearerAuth":{}}},
      *      operationId="lesson_join_term_delete",
      *      tags={"Lesson_Join_Term"},
      *      summary="Delete existing project",

@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Validator;
 
 class TermsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+    }
     /*
      * Display a listing of the resource.
      *
@@ -16,7 +20,8 @@ class TermsController extends Controller
      */
     /**
      * @OA\Get(
-     *      path="/api/auth/term",
+     *      path="/api/term",
+     *      security={{"bearerAuth":{}}},
      *      operationId="term_index",
      *      tags={"Terms"},
      *      summary="All Terms",
@@ -61,7 +66,8 @@ class TermsController extends Controller
      */
     /**
      * @OA\Post(
-     *      path="/api/auth/term",
+     *      path="/api/term",
+     *      security={{"bearerAuth":{}}},
      *      operationId="term_store",
      *      tags={"Terms"},
      *      summary="new Trems add",
@@ -129,7 +135,8 @@ class TermsController extends Controller
     }
 /**
  * @OA\Get(
- * path="/api/auth/term/{id}",
+ * path="/api/term/{id}",
+ * security={{"bearerAuth":{}}},
  * summary="Show term",
  * description="bitta termda hamma malumotlarini ko'rsatadi",
  * operationId="term_show",
@@ -187,7 +194,8 @@ class TermsController extends Controller
     }
     /**
      * @OA\Put(
-     *      path="/api/auth/term/{id}",
+     *      path="/api/term/{id}",
+     *      security={{"bearerAuth":{}}},
      *      operationId="term_update",
      *      tags={"Terms"},
      *      summary="Update existing project",
@@ -271,7 +279,8 @@ class TermsController extends Controller
     }
 /**
      * @OA\Delete(
-     *      path="/api/auth/term/{id}",
+     *      path="/api/term/{id}",
+     *      security={{"bearerAuth":{}}},
      *      operationId="term_delete",
      *      tags={"Terms"},
      *      summary="Delete existing project",

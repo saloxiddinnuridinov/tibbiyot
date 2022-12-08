@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Validator;
 
 class StudentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+    }
     /*
      * Display a listing of the resource.
      *
@@ -15,7 +19,7 @@ class StudentController extends Controller
      */
     /**
      * @OA\Get(
-     *      path="/api/auth/student",
+     *      path="/api/student",
      *      operationId="student_index",
      *      tags={"Student"},
      *      summary="All Students",
@@ -76,7 +80,8 @@ class StudentController extends Controller
      */
     /**
      * @OA\Post(
-     *      path="/api/auth/student",
+     *      path="/api/student",
+     *      security={{"bearerAuth":{}}},
      *      operationId="student_store",
      *      tags={"Student"},
      *      summary="new Student add",
@@ -163,7 +168,7 @@ class StudentController extends Controller
      */
 /**
  * @OA\Get(
- * path="/api/auth/student/{id}",
+ * path="/api/student/{id}",
  * summary="Show Student",
  * description="bitta studentni hamma malumotlarini ko'rsatadi",
  * operationId="student_show",
@@ -233,7 +238,8 @@ class StudentController extends Controller
      */
     /**
      * @OA\Put(
-     *      path="/api/auth/student/{id}",
+     *      path="/api/student/{id}",
+     *      security={{"bearerAuth":{}}},
      *      operationId="student_update",
      *      tags={"Student"},
      *      summary="Update existing project",
@@ -332,7 +338,8 @@ class StudentController extends Controller
      */
     /**
      * @OA\Delete(
-     *      path="/api/auth/student/{id}",
+     *      path="/api/student/{id}",
+     *  security={{"bearerAuth":{}}},
      *      operationId="student_delete",
      *      tags={"Student"},
      *      summary="Delete existing project",

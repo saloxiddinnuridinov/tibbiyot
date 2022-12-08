@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Validator;
 
 class TermJoinImageFileController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+    }
     /*
      * Display a listing of the resource.
      *
@@ -16,7 +20,8 @@ class TermJoinImageFileController extends Controller
      */
     /**
      * @OA\Get(
-     *      path="/api/auth/term/join/image/file",
+     *      path="/api/term-join-image-file",
+     *      security={{"bearerAuth":{}}},
      *      operationId="term_join_image_file_index",
      *      tags={"Terms_Join_Image_File"},
      *      summary="All term join image File",
@@ -64,7 +69,8 @@ class TermJoinImageFileController extends Controller
      */
     /**
      * @OA\Post(
-     *      path="/api/auth/term/join/image/file",
+     *      path="/api/term-join-image-file",
+     *      security={{"bearerAuth":{}}},
      *      operationId="term_join_image_file_store",
      *      tags={"Terms_Join_Image_File"},
      *      summary="Term_join_image File add",
@@ -128,7 +134,8 @@ class TermJoinImageFileController extends Controller
      */
     /**
  * @OA\Get(
- * path="/api/auth/term/join/image/file/{id}",
+ * path="/api/term-join-image-file/{id}",
+ * security={{"bearerAuth":{}}},
  * summary="Show term join image file",
  * description="bitta term join image fileda hamma malumotlarini ko'rsatadi",
  * operationId="Terms_Join_Image_File_show",
@@ -190,7 +197,8 @@ class TermJoinImageFileController extends Controller
      */
     /**
      * @OA\Put(
-     *      path="/api/auth/term/join/image/file/{id}",
+     *      path="/api/term-join-image-file/{id}",
+     *      security={{"bearerAuth":{}}},
      *      operationId="term_join_image_file_update",
      *      tags={"Terms_Join_Image_File"},
      *      summary="Update existing project",
@@ -268,7 +276,8 @@ class TermJoinImageFileController extends Controller
      */
     /**
      * @OA\Delete(
-     *      path="/api/auth/term/join/image/file/{id}",
+     *      path="/api/term-join-image-file/{id}",
+     *      security={{"bearerAuth":{}}},
      *      operationId="term_join_image_file_delete",
      *      tags={"Terms_Join_Image_File"},
      *      summary="Delete existing project",
