@@ -19,17 +19,17 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             ContentSeeder::class,
             LessonSeeder::class,
-            TermsSeeder::class,
+            TermSeeder::class,
             ObjectFileSeeder::class,
             VideoFileSeeder::class,
             ImageFileSeeder::class,
             LessonJoinObjectFileSeeder::class,
             LessonJoinVideoFileSeeder::class,
             LessonJoinImageFileSeeder::class,
-            LessonJoinTermsSeeder::class,
-            TermsJoinObjectFileSeeder::class,
-            TermsJoinVideoFileSeeder::class,
-            TermsJoinImageFileSeeder::class,
+            LessonJoinTermSeeder::class,
+            TermJoinObjectFileSeeder::class,
+            TermJoinVideoFileSeeder::class,
+            TermJoinImageFileSeeder::class,
        ]);
         
     }

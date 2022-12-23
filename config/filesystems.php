@@ -42,6 +42,11 @@ return [
             'visibility' => 'public',
         ],
 
+        'controller' => [
+            'driver' => 'local',
+            'root' => app_path('Http/Controllers'),
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
